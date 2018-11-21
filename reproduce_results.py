@@ -1,4 +1,4 @@
-from nemlite import input_generator, engine
+import nemlite
 import pandas as pd
 
 # Note running this file as is will consume large amounts of disk space and take several weeks, probably try running it
@@ -26,7 +26,7 @@ end_times = ['2011/02/01 00:00:00', '2011/03/01 00:00:00', '2011/04/01 00:00:00'
 
 for start_time, end_time in zip(start_times, end_times):
     # Create an generator of actual historical NEMDE inputs.
-    inputs = input_generator.actual_inputs_replicator(start_time, end_time, raw_data, filtered_data, True)
+    inputs = nemlite.actual_inputs_replicator(start_time, end_time, raw_data, filtered_data, True)
 
     # Create a data frame to save the results
     nemlite_results_cumulative = pd.DataFrame()
@@ -37,7 +37,7 @@ for start_time, end_time in zip(start_times, end_times):
          timestamp, inter_demand_coefficients, mnsp_inter, mnsp_price_bids, mnsp_capacity_bids,
          market_cap_and_floor] in inputs:
 
-        nemlite_results, dispatches, inter_flows = engine.run(gen_info_raw, capacity_bids_raw, initial_conditions,
+        nemlite_results, dispatches, inter_flows = nemlite.run(gen_info_raw, capacity_bids_raw, initial_conditions,
                                                               inter_direct_raw, region_req_raw, price_bids_raw,
                                                               inter_seg_definitions, con_point_constraints,
                                                               inter_gen_constraints, gen_con_data,
