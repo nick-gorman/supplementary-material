@@ -32,18 +32,24 @@ for start_time, end_time in zip(start_times, end_times):
     nemlite_results_cumulative = pd.DataFrame()
 
     # Iterate other the inputs to
-    for [gen_info_raw, capacity_bids_raw, initial_conditions, inter_direct_raw, region_req_raw, price_bids_raw,
-         inter_seg_definitions, con_point_constraints, inter_gen_constraints, gen_con_data, region_constraints,
-         timestamp, inter_demand_coefficients, mnsp_inter, mnsp_price_bids, mnsp_capacity_bids,
+    for [dispatch_unit_information, dispatch_unit_capacity_bids, initial_conditions, interconnectors,
+         regional_demand, dispatch_unit_price_bids, regulated_interconnectors_loss_model, connection_point_constraints,
+         interconnector_constraints, constraint_data, region_constraints, timestamp,
+         regulated_interconnector_loss_factor_model,
+         market_interconnectors, market_interconnector_price_bids, market_interconnector_capacity_bids,
          market_cap_and_floor] in inputs:
 
-        nemlite_results, dispatches, inter_flows = nemlite.run(gen_info_raw, capacity_bids_raw, initial_conditions,
-                                                              inter_direct_raw, region_req_raw, price_bids_raw,
-                                                              inter_seg_definitions, con_point_constraints,
-                                                              inter_gen_constraints, gen_con_data,
-                                                              region_constraints, inter_demand_coefficients,
-                                                              mnsp_inter, mnsp_price_bids, mnsp_capacity_bids,
-                                                              market_cap_and_floor)
+        nemlite_results, dispatches, inter_flows = nemlite.run(dispatch_unit_information, dispatch_unit_capacity_bids,
+                                                               initial_conditions, interconnectors,
+                                                               regional_demand, dispatch_unit_price_bids,
+                                                               regulated_interconnectors_loss_model,
+                                                               connection_point_constraints,
+                                                               interconnector_constraints, constraint_data,
+                                                               region_constraints,
+                                                               regulated_interconnector_loss_factor_model,
+                                                               market_interconnectors, market_interconnector_price_bids,
+                                                               market_interconnector_capacity_bids,
+                                                               market_cap_and_floor)
 
         nemlite_results['DateTime'] = timestamp
         nemlite_results_cumulative = pd.concat([nemlite_results_cumulative, nemlite_results])
